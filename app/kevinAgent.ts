@@ -5,6 +5,17 @@ const ELEVEN_LABS_API_KEY =
   "sk_e449cab443d6c49d26229073792ebbec46a9622a2b97eab0";
 const ELEVEN_LABS_VOICE_ID = "F0YyB5FPodSvW9GVYILr";
 
+// https://stackoverflow.com/a/60782610
+function _arrayBufferToBase64(buffer : ArrayBuffer) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
+}
+
 class KevinAgent {
   static client: ElevenLabsClient;
   static initialize() {
@@ -42,9 +53,7 @@ class KevinAgent {
 
       const arrayBuffer = await response.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
-      const base64 = btoa(
-        String.fromCharCode.apply(null, Array.from(uint8Array))
-      );
+      const base64 = _arrayBufferToBase64(uint8Array.buffer);
       const dataUri = `data:audio/mpeg;base64,${base64}`;
 
       const { sound } = await Audio.Sound.createAsync(

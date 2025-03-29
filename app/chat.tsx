@@ -16,7 +16,7 @@ export default function Chat() {
           if (isActive) {
             setCritique(result);
             console.log(result);
-            KevinAgent.speak(result.substring(0, 100));
+            KevinAgent.speak(result);
           }
         } catch (error) {
           console.error("Error fetching critique:", error);
