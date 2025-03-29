@@ -19,13 +19,13 @@ export default function Navigation() {
 			<TabSlot style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "#000" }} />
 			<TabList style={styles.tabList}>
 				<TabTrigger name="home" href="/" asChild>
-					<CustomTabButton icon="home" isExpanded={isExpanded} index={2}>Home</CustomTabButton>
+					<CustomTabButton icon="home-outline" isExpanded={isExpanded} index={2}>Home</CustomTabButton>
 				</TabTrigger>
 				<TabTrigger name="chat" href="/chat" asChild>
-					<CustomTabButton icon="chatbox" isExpanded={isExpanded} index={1}>Chat</CustomTabButton>
+					<CustomTabButton icon="chatbox-outline" isExpanded={isExpanded} index={1}>Chat</CustomTabButton>
 				</TabTrigger>
 				<TabTrigger name="quest" href="/quests" asChild>
-					<CustomTabButton icon="map" isExpanded={isExpanded} index={0}>Quests</CustomTabButton>
+					<CustomTabButton icon="map-outline" isExpanded={isExpanded} index={0}>Quests</CustomTabButton>
 				</TabTrigger>
 				<KevinButton
 					onPress={toggleExpandHandler}

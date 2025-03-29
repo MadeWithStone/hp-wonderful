@@ -145,7 +145,7 @@ const generatePrompt = (transactions : Transaction[]) => {
   })
   prompt += '-------------------------\n'
 
-  console.log(prompt)
+  // console.log(prompt)
 }
 
 export const getTransactions = async (): Promise<Transaction[]> => {

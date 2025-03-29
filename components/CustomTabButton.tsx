@@ -13,25 +13,31 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
     (props, ref) => {
         const rightAnim = React.useRef(new Animated.Value(15)).current;
         const bottomAnim = React.useRef(new Animated.Value(50)).current;
+        const opacityAnim = React.useRef(new Animated.Value(1)).current;
         
         function getExpandedPosition() {
-            const bottom = props.index == 1 ? 100 : 90;
+            const bottom = props.index == 1 ? 103 : 90;
             const right = props.index * 18 - 3;
-            return { bottom, right };
+            return { bottom, right, opacity: 1 };
         }
         
         React.useEffect(() => {
-            const { bottom, right } = props.isExpanded ? getExpandedPosition() : { bottom: 50, right: 15 };
+            const { bottom, right, opacity } = props.isExpanded ? getExpandedPosition() : { bottom: 50, right: 15, opacity: 0 };
             
             Animated.parallel([
                 Animated.timing(rightAnim, {
                     toValue: right,
-                    duration: 100,
+                    duration: 150,
                     useNativeDriver: false,
                 }),
                 Animated.timing(bottomAnim, {
                     toValue: bottom,
-                    duration: 100,
+                    duration: 150,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(opacityAnim, {
+                    toValue: opacity,
+                    duration: 150,
                     useNativeDriver: false,
                 })
             ]).start();
@@ -49,7 +55,8 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
                         bottom: bottomAnim.interpolate({
                             inputRange: [0, 100],
                             outputRange: ['0%', '100%']
-                        })
+                        }),
+                        opacity: opacityAnim
                     }
                 ]}
             >
@@ -64,11 +71,8 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
                     <Ionicons
                         name={props.icon}
                         size={24}
-                        color={props.isFocused ? "#fff" : "#64748B"}
+                        color={props.isFocused ? "#fff" : "#7d8083"}
                     />
-                    <Text style={[styles.text, props.isFocused && styles.focusedText]}>
-                        {props.children}
-                    </Text>
                 </Pressable>
             </Animated.View>
         );
@@ -81,17 +85,17 @@ const styles = StyleSheet.create({
     button: {
         width: 65,
         height: 65,
-        position: "absolute",
-        opacity: 1,
+        position: "absolute"
     },
     pressable: {
         width: 65,
         height: 65,
         borderRadius: 32.5,
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.06)",
-        backgroundColor: "#fff",
+        backgroundColor: "#111720",
         justifyContent: "center",
         alignItems: "center",
+        borderWidth: 1,
+        borderColor: "1f2b2e"
     },
     focusedButton: {
         backgroundColor: "#6366F1"
@@ -99,12 +103,6 @@ const styles = StyleSheet.create({
     focusedText: {
         color: "#fff",
         fontSize: 12,
-        fontWeight: "500"
-    },
-    text: {
-        color: "#64748B",
-        fontSize: 12,
-        marginTop: 4,
         fontWeight: "500"
     }
 });
