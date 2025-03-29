@@ -2,10 +2,19 @@ import { StyleSheet } from "react-native";
 import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
 import { CustomTabButton } from "@/components/CustomTabButton";
 import { ToggleMenuButton } from "./ToggleMenuButton";
-import React from "react";
+import React, { useEffect } from "react";
+import KevinAgent from "@/app/kevinAgent";
 
 export default function Kevin() {
 	const [isExpanded, setIsExpanded] = React.useState(false);
+
+	useEffect(() => {
+		testKevin();
+	}, []);
+
+	const testKevin = async () => {
+		await KevinAgent.speak("I am kevin oleary!!");
+	}
 
 	function toggleExpandHandler() {
 		setIsExpanded(!isExpanded);
