@@ -7,9 +7,14 @@ export default function Chat() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#000",
       }}
     >
-      <Text>CHAT</Text>
+      <Text style={{
+        color: "#fff",
+        fontSize: 24,
+        fontWeight: "bold",
+      }}>CHAT</Text>
     </View>
   );
 }

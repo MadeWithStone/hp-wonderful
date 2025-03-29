@@ -7,9 +7,14 @@ export default function Quests() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#000",
       }}
     >
-      <Text>Quests</Text>
+      <Text style={{
+        color: "#fff",
+        fontSize: 24,
+        fontWeight: "bold",
+      }}>QUESTS</Text>
     </View>
   );
 }
