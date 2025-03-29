@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, FlatList } from "react-native";
 import { useState, useEffect } from "react";
 import { getTransactions } from "./transactions";
+import Chat from "./chat";
 
 export default function Index() {
   const [transactions, setTransactions] = useState([]);
@@ -20,6 +21,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      {/* <Chat /> */}
       <Text style={styles.title}>Transactions</Text>
       
       <FlatList
