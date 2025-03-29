@@ -7,6 +7,7 @@ interface CustomTabButtonProps extends React.PropsWithChildren, TabTriggerSlotPr
     icon: keyof typeof Ionicons.glyphMap;
     isExpanded: boolean;
     index: number;
+    background: string;
 }
 
 export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
@@ -16,8 +17,8 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
         const opacityAnim = React.useRef(new Animated.Value(1)).current;
         
         function getExpandedPosition() {
-            const bottom = props.index == 1 ? 103 : 90;
-            const right = props.index * 18 - 3;
+            const bottom = 100;
+            const right = props.index * 23 + 3;
             return { bottom, right, opacity: 1 };
         }
         
@@ -63,15 +64,14 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
                 <Pressable
                     ref={ref}
                     {...props}
-                    style={[
-                        styles.pressable,
-                        props.isFocused && styles.focusedButton,
-                    ]}
+                    style={{
+                        ...styles.pressable, backgroundColor: props.background,
+                    }}
                 >
                     <Ionicons
                         name={props.icon}
                         size={24}
-                        color={props.isFocused ? "#fff" : "#7d8083"}
+                        color={"#fff"}
                     />
                 </Pressable>
             </Animated.View>
@@ -91,14 +91,10 @@ const styles = StyleSheet.create({
         width: 65,
         height: 65,
         borderRadius: 32.5,
-        backgroundColor: "#111720",
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 1,
         borderColor: "#1f2b2e"
-    },
-    focusedButton: {
-        backgroundColor: "#6366F1"
     },
     focusedText: {
         color: "#fff",
