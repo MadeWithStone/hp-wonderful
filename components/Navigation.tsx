@@ -1,16 +1,17 @@
 import { StyleSheet } from "react-native";
 import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
 import { CustomTabButton } from "@/components/CustomTabButton";
-import { ToggleMenuButton } from "./ToggleMenuButton";
 import React, { useEffect } from "react";
 import KevinAgent from "@/app/kevinAgent";
 import { KevinButton } from "./KevinButton";
+import * as Haptics from "expo-haptics"
 
 export default function Navigation() {
 	const [isExpanded, setIsExpanded] = React.useState(false);
 
 	function toggleExpandHandler() {
 		setIsExpanded(!isExpanded);
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
 	}
 
 	return (
