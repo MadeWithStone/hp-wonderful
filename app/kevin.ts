@@ -9,15 +9,22 @@ const client = new ElevenLabsClient({ apiKey: ELEVEN_LABS_API_KEY });
 class Kevin {
   static async speak(text: string) {
     // send text to eleven labs to be converted to speech
-    const response = await client.textToSpeech.generate({
+    const response = await client.generate({
       stream: true,
-      voice_id: ELEVEN_LABS_VOICE_ID,
+      voice: ELEVEN_LABS_VOICE_ID,
       model_id: "eleven_multilingual_v2",
       text: text,
     });
 
-    // play audio as streamed in expo app
-    const audio = new Audio(response);
+    // Convert stream to blob and create URL
+    const chunks = [];
+    for await (const chunk of response) {
+      chunks.push(chunk);
+    }
+    const blob = new Blob(chunks, { type: "audio/mpeg" });
+    const url = URL.createObjectURL(blob);
+
+    const audio = new Audio(url);
     audio.play();
   }
 }
