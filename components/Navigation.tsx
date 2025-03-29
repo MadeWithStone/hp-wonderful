@@ -15,8 +15,8 @@ export default function Navigation() {
 	}
 
 	return (
-		<Tabs>
-			<TabSlot />
+		<Tabs style={{display: "flex", width: "100%", height: "100%", justifyContent: "flex-end", alignItems: "flex-end"}}>
+			<TabSlot style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
 			<TabList style={styles.tabList}>
 				<TabTrigger name="home" href="/" asChild>
 					<CustomTabButton icon="home" isExpanded={isExpanded} index={2}>Home</CustomTabButton>
@@ -38,8 +38,8 @@ export default function Navigation() {
 
 const styles = StyleSheet.create({
 	tabList: {
-		alignSelf: "flex-end",
 		position: "relative",
 		right: 20,
+		bottom: 0,
 	}
 });
