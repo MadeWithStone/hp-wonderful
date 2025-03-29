@@ -9,14 +9,6 @@ import { KevinButton } from "./KevinButton";
 export default function Navigation() {
 	const [isExpanded, setIsExpanded] = React.useState(false);
 
-	useEffect(() => {
-		testKevin();
-	}, []);
-
-	const testKevin = async () => {
-		await KevinAgent.speak("I am kevin oleary!!");
-	}
-
 	function toggleExpandHandler() {
 		setIsExpanded(!isExpanded);
 	}
