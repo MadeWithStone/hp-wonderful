@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "1f2b2e"
+        borderColor: "#1f2b2e"
     },
     focusedButton: {
         backgroundColor: "#6366F1"
