@@ -23,12 +23,12 @@ export default function Index() {
       <Text style={styles.title}>Transactions</Text>
       
       <FlatList
-        data={transactions}
+        data={transactions.map(t => t.products).flat()}
         keyExtractor={(item, index) => index.toString()}
         style={styles.transactionList}
         renderItem={({ item }) => (
           <View style={styles.transactionItem}>
-            <Text style={styles.merchantText}>{item.merchant}</Text>
+            <Text style={styles.merchantText}>{item.name}</Text>
           </View>
         )}
       />
