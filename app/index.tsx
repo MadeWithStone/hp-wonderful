@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     marginTop: 75,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#000",
   },
   title: {
     color: "#fff",

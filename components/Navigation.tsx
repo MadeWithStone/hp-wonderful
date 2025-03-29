@@ -16,7 +16,7 @@ export default function Navigation() {
 
 	return (
 		<Tabs style={{display: "flex", width: "100%", height: "100%", justifyContent: "flex-end", alignItems: "flex-end"}}>
-			<TabSlot style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
+			<TabSlot style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "#000" }} />
 			<TabList style={styles.tabList}>
 				<TabTrigger name="home" href="/" asChild>
 					<CustomTabButton icon="home" isExpanded={isExpanded} index={2}>Home</CustomTabButton>
