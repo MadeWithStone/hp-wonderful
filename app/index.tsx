@@ -7,9 +7,14 @@ export default function Index() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#000",
       }}
     >
-      <Text>INDEX</Text>
+      <Text style={{
+        color: "#fff",
+        fontSize: 24,
+        fontWeight: "bold",
+      }}>INDEX</Text>
     </View>
   );
 }
