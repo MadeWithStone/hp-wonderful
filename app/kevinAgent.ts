@@ -37,7 +37,7 @@ class KevinAgent {
             text,
             model_id: "eleven_multilingual_v2",
             voice_settings: {
-              speed: 0.8,
+              speed: 1.0,
               stability: 1.0,
               similarity_boost: 0.84,
               use_speaker_boost: true,

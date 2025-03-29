@@ -26,7 +26,7 @@ export const getCritique = async (): Promise<string> => {
   if (response.ok) {
     return response.text();
   } else {
-    throw new Error("Error fetching critique");
+    throw new Error("Error fetching critique: " + await response.text());
   }
 }
 
@@ -39,6 +39,6 @@ export const getTransactions = async (): Promise<Transaction[]> => {
     transactions = await response.json();
     return transactions;
   } else {
-    throw new Error("Network response was not ok");
+    throw new Error("Error fetching transactions: " + response.statusText);
   }
 }
