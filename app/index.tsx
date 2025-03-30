@@ -50,42 +50,46 @@ const adviceStyles = StyleSheet.create({
 });
 
 const TransactionCard = ({ transaction }) => {
-    const formatPrice = (price) => {
-        let amount = (Math.round(price * 100) / 100).toFixed(2);
-        return `$${amount}`;
-    };
-    return (
-        <View style={transactionStyles.container}>
-            <Text style={transactionStyles.merchantText}>
-                {transaction.name}
-            </Text>
-            <Text style={transactionStyles.amountText}>
-                {formatPrice(transaction.price)}
-            </Text>
-            <Text style={transactionStyles.dateText}>{transaction.date}</Text>
-        </View>
-    );
-};
+  const formatPrice = (price) => {
+    let amount = (Math.round(price * 100) / 100).toFixed(2);
+    return `-$${amount}`;
+  }
+  return (
+    <View style={transactionStyles.container}>
+      <View style={{display: "flex", flexDirection: "column", flex: 1}}>
+        <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
+        <Text style={transactionStyles.dateText}>{new Date(transaction.datetime).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "2-digit" })}</Text>
+      </View>
+      <View style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+        <Text style={{...transactionStyles.amountText, color: transaction.price < 0 ? "#34c759" : "#ff3b30"}}>
+          {formatPrice(transaction.price)}
+        </Text>
+      </View>
+    </View>
+  );
+}
 
 const transactionStyles = StyleSheet.create({
-    container: {
-        padding: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: "#c6c6c8",
-    },
-    merchantText: {
-        color: "#000",
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-    amountText: {
-        color: "#3C3C4399",
-        fontSize: 14,
-    },
-    dateText: {
-        color: "#3C3C4399",
-        fontSize: 14,
-    },
+  container: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#c6c6c8",
+    display: "flex",
+    flexDirection: "row",
+  },
+  merchantText: {
+    color: '#000',
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  amountText: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  dateText: {
+    color: '#3C3C4399',
+    fontSize: 14,
+  }
 });
 
 export default function Index() {
@@ -121,6 +125,7 @@ export default function Index() {
         }
     };
 
+<<<<<<< HEAD
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -140,6 +145,21 @@ export default function Index() {
             </View>
         </ScrollView>
     );
+=======
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <AdviceBox advice={getAdvice(transactions)} />
+        <Text style={styles.subtitle}>Recent transactions</Text>
+        <View style={styles.transactionList}>
+          {transactions.map((t) => t.products.map((product) => ({ ...product, datetime: t.datetime }))).flat().map((product, index) => (
+            <TransactionCard key={index} transaction={product} />
+          ))}
+        </View>
+      </View>
+    </ScrollView>
+  );
+>>>>>>> a9b1c39fb7533777e7653a43a3c1e9b79fab75f0
 }
 
 const styles = StyleSheet.create({
