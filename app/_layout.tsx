@@ -14,8 +14,7 @@ export default function RootLayout() {
       screenOptions={{
         headerShown: false,
         animation: "slide_from_bottom",
-        presentation: "modal",
-        contentStyle: { backgroundColor: "#000" }
+        presentation: "modal"
       }}
     />
     <Navigation />
