@@ -11,7 +11,7 @@ export default function KevinTabButton(props: KevinTabButtonProps) {
     return (
         <View>
             <Pressable style={{...styles.pressable, backgroundColor: props.color}} onPress={props.onPress}>
-                <Ionicons name={props.icon} size={30}/>
+                <Ionicons name={props.icon} size={30} color="white"/>
             </Pressable>
         </View>
     );
@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
         borderRadius: 360,
         justifyContent: "center",
         alignItems: "center",
-        borderWidth: 1,
-        borderColor: "#1f2b2e",
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: {width:0, height: 4},
+        shadowRadius: 16
     },
 });

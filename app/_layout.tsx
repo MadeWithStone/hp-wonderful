@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import React from "react";
 import KevinAgent from "@/app/kevinAgent";
 
-import { View, Text, Modal, Pressable } from "react-native";
+import { View, Text, Modal, Pressable, Button } from "react-native";
 import { KevinButton } from "@/components/KevinButton";
 import KevinTabButton from "@/components/KevinTabButton";
 import Chat from "./chat";
@@ -17,6 +17,7 @@ export default function RootLayout() {
     const [isChatOpen, setChatOpen] = React.useState(false);
 
     const toggleExpandHandler = () => {
+        if (isChatOpen) return;
         setIsExpanded(!isExpanded);
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     };
@@ -29,18 +30,19 @@ export default function RootLayout() {
         <View style={{ flex: 1 }}>
             <Stack
                 screenOptions={{
-                    // headerShown: false,
-                    // presentation: "modal",
-                    // animation: "slide_from_bottom"
                     contentStyle: {
                         backgroundColor: "white",
                     },
-                    title: "Home",
                 }}
             >
                 <Stack.Screen
                     name="index"
-                    options={{ headerLargeTitle: true }}
+                    options={{
+                        headerLargeTitle: true,
+                        headerShadowVisible: false,
+                        title: "Home",
+                        headerRight: () => <Ionicons name="person" size={24} color="rgb(0, 122, 255)"/>
+                    }}
                 />
             </Stack>
 
@@ -57,6 +59,7 @@ export default function RootLayout() {
                     right: 0,
                     alignItems: "flex-end",
                     justifyContent: "flex-end",
+                    marginTop: isExpanded ? 48 : isChatOpen ? 0 : 100
                 }}
             >
                 <View style={{ zIndex: 50 }}>
@@ -70,12 +73,18 @@ export default function RootLayout() {
                             }}
                         >
                             <KevinTabButton
-                                onPress={() => {setChatOpen(true); setIsExpanded(false)}}
+                                onPress={() => {
+                                    setChatOpen(true);
+                                    setIsExpanded(false);
+                                }}
                                 icon="chatbubble"
                                 color="#34c759"
                             />
                             <KevinTabButton
-                                onPress={() => {router.navigate("/quests"); setIsExpanded(false)}}
+                                onPress={() => {
+                                    router.navigate("/quests");
+                                    setIsExpanded(false);
+                                }}
                                 icon="map"
                                 color="#007aff"
                             />

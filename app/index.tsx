@@ -50,49 +50,79 @@ const adviceStyles = StyleSheet.create({
 });
 
 const TransactionCard = ({ transaction }) => {
-  const formatPrice = (price) => {
-    let amount = (Math.round(price * 100) / 100).toFixed(2);
-    return `-$${amount}`;
-  }
-  return (
-    <View style={transactionStyles.container}>
-      <View style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginRight: 20}}>
-        <Ionicons name={transaction.merchant === "DoorDash" ? "car" : "cart"} size={30} />
-      </View>
-      <View style={{display: "flex", flexDirection: "column", flex: 1}}>
-        <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
-        <Text style={transactionStyles.dateText}>{new Date(transaction.datetime).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "2-digit" })}</Text>
-      </View>
-      <View style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-        <Text style={{...transactionStyles.amountText, color: transaction.price < 0 ? "#34c759" : "#ff3b30"}}>
-          {formatPrice(transaction.price)}
-        </Text>
-      </View>
-    </View>
-  );
-}
+    const formatPrice = (price) => {
+        let amount = (Math.round(price * 100) / 100).toFixed(2);
+        return `-$${amount}`;
+    };
+    return (
+        <View style={transactionStyles.container}>
+            <View
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 20,
+                }}
+            >
+                <Ionicons
+                    name={transaction.merchant === "DoorDash" ? "car" : "cart"}
+                    size={30}
+                />
+            </View>
+            <View style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                <Text style={transactionStyles.merchantText}>
+                    {transaction.name}
+                </Text>
+                <Text style={transactionStyles.dateText}>
+                    {new Date(transaction.datetime).toLocaleDateString(
+                        "en-US",
+                        { weekday: "short", month: "short", day: "2-digit" }
+                    )}
+                </Text>
+            </View>
+            <View
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <Text
+                    style={{
+                        ...transactionStyles.amountText,
+                        color: transaction.price < 0 ? "#34c759" : "#ff3b30",
+                    }}
+                >
+                    {formatPrice(transaction.price)}
+                </Text>
+            </View>
+        </View>
+    );
+};
 
 const transactionStyles = StyleSheet.create({
-  container: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#c6c6c8",
-    display: "flex",
-    flexDirection: "row",
-  },
-  merchantText: {
-    color: '#000',
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  amountText: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  dateText: {
-    color: '#3C3C4399',
-    fontSize: 14,
-  }
+    container: {
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: "#c6c6c8",
+        display: "flex",
+        flexDirection: "row",
+    },
+    merchantText: {
+        color: "#000",
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+    amountText: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    dateText: {
+        color: "#3C3C4399",
+        fontSize: 14,
+    },
 });
 
 export default function Index() {
@@ -132,7 +162,13 @@ export default function Index() {
                 <Text style={styles.subtitle}>Recent transactions</Text>
                 <View style={styles.transactionList}>
                     {transactions
-                        .map((t) => t.products.map((p) => ({ ...p, datetime: t.datetime, merchant: t.merchant })))
+                        .map((t) =>
+                            t.products.map((p) => ({
+                                ...p,
+                                datetime: t.datetime,
+                                merchant: t.merchant,
+                            }))
+                        )
                         .flat()
                         .map((product, index) => (
                             <TransactionCard

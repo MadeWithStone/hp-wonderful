@@ -18,6 +18,7 @@ import {
     SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import Svg, { Rect, G, Path, Defs, ClipPath, ForeignObject, Mask } from "react-native-svg";
 
 type ChatProps = {
     setChatOpen: Dispatch<SetStateAction<boolean>>;
@@ -76,6 +77,101 @@ export default function Chat({ setChatOpen }: ChatProps) {
                     }}
                 />
             </Pressable>
+
+            <View
+                style={{
+                    backgroundColor: "white",
+                    alignSelf: "flex-start",
+                    width: 283,
+                    marginLeft: 16,
+                    marginRight: 16,
+                    marginBottom: 128,
+                    padding: 16,
+                    borderRadius: 14,
+                }}
+            >
+                <Text>Fuck youuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu</Text>
+
+                <Svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={393}
+                    height={501}
+                    style={{position: "absolute", bottom: -123, right: -94}}
+                    fill="none"
+                >
+                    <G filter="url(#a)">
+                        <G clipPath="url(#b)">
+                            <G clipPath="url(#c)">
+                            </G>
+                        </G>
+                        <Mask
+                            id="e"
+                            width={47}
+                            height={13}
+                            x={242}
+                            y={378}
+                            maskUnits="userSpaceOnUse"
+                            style={{
+                                maskType: "alpha",
+                            }}
+                        >
+                            <ForeignObject
+                                width={383}
+                                height={388}
+                                x={-34}
+                                y={40}
+                            ></ForeignObject>
+                            <Path
+                                fill="red"
+                                fillRule="evenodd"
+                                d="M242 378.003c1.712 0 3.424-.008 5.137.01 1.639.018 3.473.044 5.068.645 1.723.65 2.864 1.787 4.012 3.124.826.962 2.449 3.015 3.239 4.006.647.812 1.913 2.418 2.605 3.195.87.978 1.945 2.017 3.439 2.017 1.495 0 2.57-1.039 3.439-2.016.692-.776 1.958-2.383 2.605-3.195.789-.991 2.412-3.044 3.239-4.006 1.15-1.337 2.289-2.474 4.011-3.124 1.596-.6 3.431-.627 5.069-.645 1.713-.018 3.425-.01 5.137-.01"
+                                clipRule="evenodd"
+                                data-figma-bg-blur-radius={130}
+                            />
+                        </Mask>
+                        <G clipPath="url(#f)" mask="url(#e)">
+                            <Path
+                                fill="#ffffff"
+                                fillOpacity={0.97}
+                                d="M242 378h47v13h-47z"
+                            />
+                            <Path
+                                fill="#ffffff"
+                                d="M0 0h47v13H0z"
+                                style={{
+                                    mixBlendMode: "color-dodge",
+                                }}
+                                transform="translate(242 378)"
+                            />
+                        </G>
+                    </G>
+                    <Defs>
+                        <ClipPath id="d" transform={"translate(34 -40)"}>
+                            <Path
+                                fillRule="evenodd"
+                                d="M242 378.003c1.712 0 3.424-.008 5.137.01 1.639.018 3.473.044 5.068.645 1.723.65 2.864 1.787 4.012 3.124.826.962 2.449 3.015 3.239 4.006.647.812 1.913 2.418 2.605 3.195.87.978 1.945 2.017 3.439 2.017 1.495 0 2.57-1.039 3.439-2.016.692-.776 1.958-2.383 2.605-3.195.789-.991 2.412-3.044 3.239-4.006 1.15-1.337 2.289-2.474 4.011-3.124 1.596-.6 3.431-.627 5.069-.645 1.713-.018 3.425-.01 5.137-.01"
+                                clipRule="evenodd"
+                            />
+                        </ClipPath>
+                        <ClipPath id="b">
+                            <Rect
+                                width={283}
+                                height={288}
+                                x={16}
+                                y={90}
+                                fill="#fff"
+                                rx={13}
+                            />
+                        </ClipPath>
+                        <ClipPath id="c">
+                            <Path fill="#fff" d="M16 90h283v288H16z" />
+                        </ClipPath>
+                        <ClipPath id="f">
+                            <Path fill="#fff" d="M242 378h47v13h-47z" />
+                        </ClipPath>
+                    </Defs>
+                </Svg>
+            </View>
 
             <KeyboardAvoidingView
                 behavior="padding"
