@@ -1,19 +1,21 @@
-import { Text, ScrollView, View, StyleSheet, FlatList } from "react-native";
+import { Text, ScrollView, View, StyleSheet, FlatList, Pressable } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { Stack, useFocusEffect } from "expo-router";
 import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
+import KevinAgent from "./kevinAgent";
+import SharkFinIcon from "@/components/SharkFinIcon";
 
-const AdviceBox = ({ advice }) => {
+const AdviceBox = ({ advice } : { advice : string }) => {
     return (
         <View style={adviceStyles.container}>
             <View style={adviceStyles.iconBox}>
-                <Ionicons name="alert-circle" color={"orange"} size={50} />
+                <SharkFinIcon color={"orange"} size={55} />
             </View>
             <View style={adviceStyles.adviceBox}>
                 <Text style={adviceStyles.adviceTitle}>Kevin's Advice</Text>
-                <Text style={adviceStyles.adviceText}>{advice}</Text>
+                <Text style={adviceStyles.adviceText}>{advice.trim()}</Text>
             </View>
         </View>
     );
@@ -49,134 +51,172 @@ const adviceStyles = StyleSheet.create({
     },
 });
 
-const TransactionCard = ({ transaction }) => {
-    const formatPrice = (price) => {
+const TransactionCard = ({ transaction, setAdviceIdx }: { transaction: Transaction, setAdviceIdx : React.Dispatch<React.SetStateAction<number>> }) => {
+    const [expanded, setExpanded] = useState(false);
+
+    const formatPrice = (price: number) => {
         let amount = (Math.round(price * 100) / 100).toFixed(2);
         return `-$${amount}`;
     };
+
+    const getTotalPrice = () => {
+        let total = 0;
+        transaction.products.forEach((product) => {
+            total += product.price;
+        });
+        return total;
+    }
+
     return (
-        <View style={transactionStyles.container}>
-            <View
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: 20,
-                }}
+        <>
+            <Pressable
+                style={transactionStyles.container}
+                onPress={() => setExpanded(!expanded)}
             >
-                <Ionicons
-                    name={transaction.merchant === "DoorDash" ? "car" : "cart"}
-                    size={30}
-                />
-            </View>
-            <View style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                <Text style={transactionStyles.merchantText}>
-                    {transaction.name}
-                </Text>
-                <Text style={transactionStyles.dateText}>
-                    {new Date(transaction.datetime).toLocaleDateString(
-                        "en-US",
-                        { weekday: "short", month: "short", day: "2-digit" }
-                    )}
-                </Text>
-            </View>
-            <View
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Text
-                    style={{
-                        ...transactionStyles.amountText,
-                        color: transaction.price < 0 ? "#34c759" : "#ff3b30",
-                    }}
-                >
-                    {formatPrice(transaction.price)}
-                </Text>
-            </View>
-        </View>
+                <View style={transactionStyles.iconCol}>
+                    <Ionicons
+                        name={transaction.merchant === "DoorDash" ? "car" : "cart"}
+                        size={30}
+                    />
+                </View>
+                <View style={transactionStyles.mainCol}>
+                    <Text style={transactionStyles.merchantText}>
+                        {transaction.merchant}
+                    </Text>
+                    <Text style={transactionStyles.dateText}>
+                        {new Date(transaction.datetime).toLocaleDateString(
+                            "en-US",
+                            { weekday: "short", month: "short", day: "2-digit" }
+                        )}
+                    </Text>
+                </View>
+                <View style={transactionStyles.moneyCol}>
+                    <Text
+                        style={{
+                            ...transactionStyles.amountText,
+                            color: Math < 0 ? "#34c759" : "#ff3b30",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {formatPrice(getTotalPrice())}
+                    </Text>
+                </View>
+            </Pressable>
+            {expanded && transaction.products.map((product, index) => (
+                <Pressable style={transactionStyles.container} key={index} onPress={() => {
+                    if (transaction.recommendation && transaction.recommendation.recommendation) {
+                        setAdviceIdx(index);
+                        KevinAgent.speak(transaction.recommendation.recommendation.trim());
+                    }
+                }}>
+                    <View style={transactionStyles.mainCol}>
+                        <Text style={transactionStyles.merchantText}>
+                            {product.name}
+                        </Text>
+                    </View>
+                    <View style={transactionStyles.moneyCol}>
+                        <Text
+                            style={{
+                                ...transactionStyles.amountText,
+                                color: product.price < 0 ? "#34c759" : "#ff3b30",
+                            }}
+                        >
+                            {formatPrice(product.price)}
+                        </Text>
+                    </View>
+                </Pressable>
+            ))}
+        </>
     );
 };
 
 const transactionStyles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 5,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#c6c6c8",
-    display: "flex",
-    flexDirection: "row",
-  },
-  merchantText: {
-    color: '#000',
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  amountText: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  dateText: {
-    color: '#3C3C4399',
-    fontSize: 14,
-  }
+    container: {
+        paddingHorizontal: 5,
+        paddingVertical: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: "#c6c6c8",
+        display: "flex",
+        flexDirection: "row",
+    },
+    iconCol: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 20,
+    },
+    mainCol: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
+    },
+    moneyCol: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    merchantText: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+    amountText: {
+        fontSize: 16
+    },
+    dateText: {
+        color: '#3C3C4399',
+        fontSize: 14,
+    }
 });
 
 export default function Index() {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([] as Transaction[]);
+    const [adviceIdx, setAdviceIdx] = useState(0);
+    const [advice, setAdvice] = useState("Loading...");
 
     useFocusEffect(
-      useCallback(() => {
-          const loadTransactions = async () => {
-              try {
-                  const data = await getTransactions();
-                  setTransactions(data);
-              } catch (error) {
-                  console.error("Failed to load transactions:", error);
-              }
-          };
-  
-          loadTransactions();
-      }, [])
-  );
+        useCallback(() => {
+            const loadTransactions = async () => {
+                try {
+                    const data = await getTransactions();
+                    setTransactions(data);
+                } catch (error) {
+                    console.error("Failed to load transactions:", error);
+                }
+            };
 
-    const getAdvice = (currTransactions: Transaction[]) => {
-        let filteredTransactions = currTransactions.filter(
+            loadTransactions();
+        }, [])
+    );
+
+    useEffect(() => {
+        let filteredTransactions = transactions.filter(
             (t) =>
                 t.recommendation &&
                 t.recommendation.recommendation &&
                 t.recommendation.recommendation.length > 0
         );
-        if (filteredTransactions.length == 0) {
-            return "Loading...";
+        if (filteredTransactions.length < adviceIdx + 1) {
+            setAdvice("Loading...");
         } else {
-            return filteredTransactions[0].recommendation.recommendation;
+            setAdvice(filteredTransactions[adviceIdx].recommendation.recommendation);
         }
-    };
+    }, [adviceIdx, transactions]);
 
     return (
         <ScrollView>
             <View style={styles.container}>
-                <AdviceBox advice={getAdvice(transactions)} />
+                <AdviceBox advice={advice} />
                 <Text style={styles.subtitle}>Recent transactions</Text>
                 <View style={styles.transactionList}>
                     {transactions
-                        .map((t) =>
-                            t.products.map((p) => ({
-                                ...p,
-                                datetime: t.datetime,
-                                merchant: t.merchant,
-                            }))
-                        )
-                        .flat()
-                        .map((product, index) => (
+                        .map((transaction, index) => (
                             <TransactionCard
                                 key={index}
-                                transaction={product}
+                                transaction={transaction}
+                                setAdviceIdx={() => setAdviceIdx(index)}
                             />
                         ))}
                 </View>
@@ -207,7 +247,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         width: "100%",
         fontWeight: "bold",
-        marginTop: 15,
+        marginTop: 45,
     },
     transactionList: {
         width: "100%",

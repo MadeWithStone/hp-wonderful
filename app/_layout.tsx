@@ -39,7 +39,7 @@ export default function RootLayout() {
                     options={{
                         headerLargeTitle: true,
                         headerShadowVisible: false,
-                        title: "Home",
+                        title: "Expenses",
                         headerRight: () => <Ionicons name="person" size={24} color="rgb(0, 122, 255)"/>
                     }}
                 />
