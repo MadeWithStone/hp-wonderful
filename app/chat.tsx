@@ -30,6 +30,7 @@ export default function Chat({ setChatOpen }: ChatProps) {
     const [kevin, setKevin] = useState<string | null>(null);
     const [query, setQuery] = useState<string | null>(null);
     const [inputText, setInputText] = useState("");
+    const [showTextBubble, setTextBubbleVis] = useState<boolean>(false);
 
     useFocusEffect(
         useCallback(() => {
@@ -55,7 +56,10 @@ export default function Chat({ setChatOpen }: ChatProps) {
 
     useEffect(() => {
         if (kevin && kevin.length > 0) {
-            KevinAgent.speak(kevin)
+            setTextBubbleVis(false);
+            KevinAgent.speak(kevin).then(() => {
+                setTextBubbleVis(true);
+            })
         }
     }, [kevin])
 
@@ -96,7 +100,8 @@ export default function Chat({ setChatOpen }: ChatProps) {
                     }}
                 />
             </Pressable>
-
+            
+            {!!showTextBubble && 
             <View
                 style={{
                     backgroundColor: "white",
@@ -190,7 +195,7 @@ export default function Chat({ setChatOpen }: ChatProps) {
                         </ClipPath>
                     </Defs>
                 </Svg>
-            </View>
+            </View>}
 
             <KeyboardAvoidingView
                 behavior="padding"

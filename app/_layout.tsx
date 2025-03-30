@@ -1,6 +1,5 @@
 import { Stack, useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
-import Navigation from "@/components/Navigation";
 import React from "react";
 import KevinAgent from "@/app/kevinAgent";
 
