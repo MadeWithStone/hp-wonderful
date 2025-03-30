@@ -125,7 +125,6 @@ export default function Index() {
         }
     };
 
-<<<<<<< HEAD
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -145,21 +144,6 @@ export default function Index() {
             </View>
         </ScrollView>
     );
-=======
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <AdviceBox advice={getAdvice(transactions)} />
-        <Text style={styles.subtitle}>Recent transactions</Text>
-        <View style={styles.transactionList}>
-          {transactions.map((t) => t.products.map((product) => ({ ...product, datetime: t.datetime }))).flat().map((product, index) => (
-            <TransactionCard key={index} transaction={product} />
-          ))}
-        </View>
-      </View>
-    </ScrollView>
-  );
->>>>>>> a9b1c39fb7533777e7653a43a3c1e9b79fab75f0
 }
 
 const styles = StyleSheet.create({
