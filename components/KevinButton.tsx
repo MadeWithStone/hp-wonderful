@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
         width: 180,
         height: 180,
         justifyContent: "center",
-        alignItems: "center",
-        zIndex: 10
+        alignItems: "center"
     }
 });
