@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 export default function Quests() {
     return (
         <>
-            <Stack.Screen name="quests" options={{headerLargeTitle: true}}/>
+            <Stack.Screen name="quests"  options={{headerLargeTitle: true, title: 'Quests'}}/>
             <View
                 style={{
                     flex: 1,

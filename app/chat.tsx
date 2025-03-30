@@ -14,10 +14,13 @@ import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import KevinAgent from "./kevinAgent";
 import { KeyboardAvoidingView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 type ChatProps = {
-    setChatOpen: Dispatch<SetStateAction<boolean>>
+    setChatOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Chat({ setChatOpen }: ChatProps) {
@@ -53,8 +56,25 @@ export default function Chat({ setChatOpen }: ChatProps) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Pressable style={{position: 'absolute', top: 0, right: 0, paddingTop: insets.top}} onPress={() => setChatOpen(false)}>
-                <Ionicons name="close-outline" size={64}/>
+            <Pressable
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    marginTop: insets.top,
+                    marginRight: 16,
+                }}
+                onPress={() => setChatOpen(false)}
+            >
+                <Ionicons
+                    name="close-outline"
+                    size={32}
+                    color={"rgb(142, 142, 147)"}
+                    style={{
+                        backgroundColor: "rgb(44, 44, 46)",
+                        borderRadius: 360,
+                    }}
+                />
             </Pressable>
 
             <KeyboardAvoidingView
@@ -77,26 +97,18 @@ export default function Chat({ setChatOpen }: ChatProps) {
                 />
             </KeyboardAvoidingView>
         </SafeAreaView>
-
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#ff0000",
-        opacity: 0.5,
+        backgroundColor: "rgba(0, 0, 0, 0.75)",
         width: "100%",
         height: "100%",
         flex: 1,
-        zIndex: 10,
-        position: 'absolute',
-        // position: "absolute",
-        // width: "100%",
-        // height: "100%",
-        // left: 0,
-        // bottom: 0,
-        // zIndex: 20,
-        // display: "flex",
+        zIndex: 40,
+        position: "absolute",
+        paddingBottom: 12,
         flexDirection: "column",
         justifyContent: "flex-end",
     },
@@ -108,6 +120,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         padding: 10,
         paddingHorizontal: 20,
-        marginBottom: 50,
+        marginRight: 144,
     },
 });

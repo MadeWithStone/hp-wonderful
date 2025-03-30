@@ -5,87 +5,87 @@ import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
 
-const AdviceBox = ( {advice} ) => {
-  return (
-    <View style={adviceStyles.container}>
-      <View style={adviceStyles.iconBox}>
-        <Ionicons name="alert-circle" color={"orange"} size={50} />
-      </View>
-      <View style={adviceStyles.adviceBox}>
-        <Text style={adviceStyles.adviceTitle}>
-          Kevin's Advice
-        </Text>
-        <Text style={adviceStyles.adviceText}>
-          {advice}
-        </Text>
-      </View>
-    </View>
-  )
-}
+const AdviceBox = ({ advice }) => {
+    return (
+        <View style={adviceStyles.container}>
+            <View style={adviceStyles.iconBox}>
+                <Ionicons name="alert-circle" color={"orange"} size={50} />
+            </View>
+            <View style={adviceStyles.adviceBox}>
+                <Text style={adviceStyles.adviceTitle}>Kevin's Advice</Text>
+                <Text style={adviceStyles.adviceText}>{advice}</Text>
+            </View>
+        </View>
+    );
+};
 
 const adviceStyles = StyleSheet.create({
-  container: {
-    backgroundColor: "#f2f2f7",
-    padding: 16,
-    borderRadius: 16,
-    gap: 16,
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-  },
-  iconBox: {
-    display: "flex",
-    flexDirection: "column"
-  },
-  adviceBox: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column"
-  },
-  adviceTitle: {
-    color: "#000",
-    fontSize: 17,
-    fontWeight: "bold",
-  },
-  adviceText: {
-    color: "#3C3C4399",
-    fontSize: 16,
-  },
-})
+    container: {
+        backgroundColor: "#f2f2f7",
+        padding: 16,
+        borderRadius: 16,
+        gap: 16,
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+    },
+    iconBox: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    adviceBox: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+    },
+    adviceTitle: {
+        color: "#000",
+        fontSize: 17,
+        fontWeight: "bold",
+    },
+    adviceText: {
+        color: "#3C3C4399",
+        fontSize: 16,
+    },
+});
 
 const TransactionCard = ({ transaction }) => {
-  const formatPrice = (price) => {
-    let amount = (Math.round(price * 100) / 100).toFixed(2);
-    return `$${amount}`;
-  }
-  return (
-    <View style={transactionStyles.container}>
-      <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
-      <Text style={transactionStyles.amountText}>{formatPrice(transaction.price)}</Text>
-      <Text style={transactionStyles.dateText}>{transaction.date}</Text>
-    </View>
-  );
-}
+    const formatPrice = (price) => {
+        let amount = (Math.round(price * 100) / 100).toFixed(2);
+        return `$${amount}`;
+    };
+    return (
+        <View style={transactionStyles.container}>
+            <Text style={transactionStyles.merchantText}>
+                {transaction.name}
+            </Text>
+            <Text style={transactionStyles.amountText}>
+                {formatPrice(transaction.price)}
+            </Text>
+            <Text style={transactionStyles.dateText}>{transaction.date}</Text>
+        </View>
+    );
+};
 
 const transactionStyles = StyleSheet.create({
-  container: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#c6c6c8",
-  },
-  merchantText: {
-    color: '#000',
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  amountText: {
-    color: '#3C3C4399',
-    fontSize: 14,
-  },
-  dateText: {
-    color: '#3C3C4399',
-    fontSize: 14,
-  }
+    container: {
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: "#c6c6c8",
+    },
+    merchantText: {
+        color: "#000",
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+    amountText: {
+        color: "#3C3C4399",
+        fontSize: 14,
+    },
+    dateText: {
+        color: "#3C3C4399",
+        fontSize: 14,
+    },
 });
 
 export default function Index() {
@@ -104,65 +104,76 @@ export default function Index() {
         loadTransactions();
     }, []);
 
-  const getAdvice = (currTransactions : Transaction[]) => {
-    console.log("A")
-    console.log(currTransactions)
-    let filteredTransactions = currTransactions.filter(t => t.recommendation && t.recommendation.recommendation && t.recommendation.recommendation.length > 0);
-    console.log("B")
-    if (filteredTransactions.length == 0) {
-      return "Loading...";
-    } else {
-      return filteredTransactions[0].recommendation.recommendation;
-    }
-  }
+    const getAdvice = (currTransactions: Transaction[]) => {
+        console.log("A");
+        console.log(currTransactions);
+        let filteredTransactions = currTransactions.filter(
+            (t) =>
+                t.recommendation &&
+                t.recommendation.recommendation &&
+                t.recommendation.recommendation.length > 0
+        );
+        console.log("B");
+        if (filteredTransactions.length == 0) {
+            return "Loading...";
+        } else {
+            return filteredTransactions[0].recommendation.recommendation;
+        }
+    };
 
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <AdviceBox advice={getAdvice(transactions)} />
-        <Text style={styles.subtitle}>Recent transactions</Text>
-        <View style={styles.transactionList}>
-          {transactions.map((t) => t.products).flat().map((product, index) => (
-            <TransactionCard key={index} transaction={product} />
-          ))}
-        </View>
-      </View>
-    </ScrollView>
-  );
+    return (
+        <ScrollView>
+            <View style={styles.container}>
+                <AdviceBox advice={getAdvice(transactions)} />
+                <Text style={styles.subtitle}>Recent transactions</Text>
+                <View style={styles.transactionList}>
+                    {transactions
+                        .map((t) => t.products)
+                        .flat()
+                        .map((product, index) => (
+                            <TransactionCard
+                                key={index}
+                                transaction={product}
+                            />
+                        ))}
+                </View>
+            </View>
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 160,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    paddingHorizontal: 20
-  },
-  title: {
-    color: "#000",
-    fontSize: 41,
-    textAlign: "left",
-    width: "100%",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  subtitle: {
-    color: "#000",
-    fontSize: 25,
-    textAlign: "left",
-    width: "100%",
-    fontWeight: "bold",
-    marginTop: 15,
-  },
-  transactionList: {
-    width: '100%',
-    marginTop: 20,
-    gap: 0,
-    borderRadius: 16,
-    backgroundColor: "#f2f2f7",
-    padding: 16,
-    paddingTop: 0,
-    marginBottom: 20,
-  }
+    container: {
+        flex: 1,
+        marginTop: 160,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        paddingHorizontal: 20,
+    },
+    title: {
+        color: "#000",
+        fontSize: 41,
+        textAlign: "left",
+        width: "100%",
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    subtitle: {
+        color: "#000",
+        fontSize: 25,
+        textAlign: "left",
+        width: "100%",
+        fontWeight: "bold",
+        marginTop: 15,
+    },
+    transactionList: {
+        width: "100%",
+        marginTop: 20,
+        gap: 0,
+        borderRadius: 16,
+        backgroundColor: "#f2f2f7",
+        padding: 16,
+        paddingTop: 0,
+        marginBottom: 20,
+    },
 });

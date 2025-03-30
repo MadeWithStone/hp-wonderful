@@ -28,17 +28,15 @@ export default function RootLayout() {
     return (
         <View style={{ flex: 1 }}>
             <Stack
-                screenOptions={
-                    {
-                        // headerShown: false,
-                        // presentation: "modal",
-                        // animation: "slide_from_bottom"
-                        contentStyle: {
-                          backgroundColor: "white",
-                        },
-                        title: "Home",
-                    }
-                }
+                screenOptions={{
+                    // headerShown: false,
+                    // presentation: "modal",
+                    // animation: "slide_from_bottom"
+                    contentStyle: {
+                        backgroundColor: "white",
+                    },
+                    title: "Home",
+                }}
             >
                 <Stack.Screen
                     name="index"
@@ -46,7 +44,7 @@ export default function RootLayout() {
                 />
             </Stack>
 
-            {!!isChatOpen && <Chat setChatOpen={setChatOpen}/>}
+            {!!isChatOpen && <Chat setChatOpen={setChatOpen} />}
 
             <View
                 style={{
@@ -61,8 +59,7 @@ export default function RootLayout() {
                     justifyContent: "flex-end",
                 }}
             >
-
-                <View style={{zIndex: 50}}>
+                <View style={{ zIndex: 50 }}>
                     {!!isExpanded && (
                         <View
                             style={{
@@ -73,13 +70,14 @@ export default function RootLayout() {
                             }}
                         >
                             <KevinTabButton
-                              onPress={() => setChatOpen(true)} 
-                              icon="chatbubble"
-                              color="#34c759" />
+                                onPress={() => {setChatOpen(true); setIsExpanded(false)}}
+                                icon="chatbubble"
+                                color="#34c759"
+                            />
                             <KevinTabButton
-                              onPress={() => router.navigate("/quests")}
-                              icon="map"
-                              color="#007aff"
+                                onPress={() => {router.navigate("/quests"); setIsExpanded(false)}}
+                                icon="map"
+                                color="#007aff"
                             />
                         </View>
                     )}
