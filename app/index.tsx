@@ -5,12 +5,13 @@ import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
 import KevinAgent from "./kevinAgent";
+import SharkFinIcon from "@/components/SharkFinIcon";
 
 const AdviceBox = ({ advice } : { advice : string }) => {
     return (
         <View style={adviceStyles.container}>
             <View style={adviceStyles.iconBox}>
-                <Ionicons name="fish" color={"orange"} size={50} />
+                <SharkFinIcon color={"orange"} size={55} />
             </View>
             <View style={adviceStyles.adviceBox}>
                 <Text style={adviceStyles.adviceTitle}>Kevin's Advice</Text>
