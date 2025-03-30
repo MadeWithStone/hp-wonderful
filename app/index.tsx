@@ -1,6 +1,6 @@
 import { Text, ScrollView, View, StyleSheet, FlatList } from "react-native";
-import { useState, useEffect } from "react";
-import { Stack } from "expo-router";
+import { useState, useEffect, useCallback } from "react";
+import { Stack, useFocusEffect } from "expo-router";
 import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
@@ -98,18 +98,20 @@ const transactionStyles = StyleSheet.create({
 export default function Index() {
     const [transactions, setTransactions] = useState([]);
 
-    useEffect(() => {
-        const loadTransactions = async () => {
-            try {
-                const data = await getTransactions();
-                setTransactions(data);
-            } catch (error) {
-                console.error("Failed to load transactions:", error);
-            }
-        };
-
-        loadTransactions();
-    }, []);
+    useFocusEffect(
+      useCallback(() => {
+          const loadTransactions = async () => {
+              try {
+                  const data = await getTransactions();
+                  setTransactions(data);
+              } catch (error) {
+                  console.error("Failed to load transactions:", error);
+              }
+          };
+  
+          loadTransactions();
+      }, [])
+  );
 
     const getAdvice = (currTransactions: Transaction[]) => {
         let filteredTransactions = currTransactions.filter(
