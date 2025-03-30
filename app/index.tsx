@@ -1,9 +1,10 @@
-import { Text, ScrollView, View, StyleSheet, FlatList } from "react-native";
+import { Text, ScrollView, View, StyleSheet, FlatList, Pressable } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { Stack, useFocusEffect } from "expo-router";
 import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
+import KevinAgent from "./kevinAgent";
 
 const AdviceBox = ({ advice }) => {
     return (
@@ -13,7 +14,7 @@ const AdviceBox = ({ advice }) => {
             </View>
             <View style={adviceStyles.adviceBox}>
                 <Text style={adviceStyles.adviceTitle}>Kevin's Advice</Text>
-                <Text style={adviceStyles.adviceText}>{advice}</Text>
+                <Text style={adviceStyles.adviceText}>{advice.trim()}</Text>
             </View>
         </View>
     );
@@ -55,7 +56,9 @@ const TransactionCard = ({ transaction }) => {
         return `-$${amount}`;
     };
     return (
-        <View style={transactionStyles.container}>
+        <Pressable style={transactionStyles.container} onPress={() => {
+            KevinAgent.speak(transaction.recommendation.recommendation.trim());
+        }}>
             <View
                 style={{
                     display: "flex",
@@ -98,7 +101,7 @@ const TransactionCard = ({ transaction }) => {
                     {formatPrice(transaction.price)}
                 </Text>
             </View>
-        </View>
+        </Pressable>
     );
 };
 
@@ -170,6 +173,7 @@ export default function Index() {
                                 ...p,
                                 datetime: t.datetime,
                                 merchant: t.merchant,
+                                recommendation: t.recommendation,
                             }))
                         )
                         .flat()
