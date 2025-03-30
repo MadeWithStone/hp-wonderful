@@ -1,6 +1,6 @@
 import { Text, ScrollView, View, StyleSheet, FlatList } from "react-native";
-import { useState, useEffect } from "react";
-import { Stack } from "expo-router";
+import { useState, useEffect, useCallback } from "react";
+import { Stack, useFocusEffect } from "expo-router";
 import { getTransactions, Transaction } from "./transactions";
 import Chat from "./chat";
 import { Ionicons } from "@expo/vector-icons";
@@ -103,43 +103,46 @@ const TransactionCard = ({ transaction }) => {
 };
 
 const transactionStyles = StyleSheet.create({
-    container: {
-        padding: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: "#c6c6c8",
-        display: "flex",
-        flexDirection: "row",
-    },
-    merchantText: {
-        color: "#000",
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-    amountText: {
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    dateText: {
-        color: "#3C3C4399",
-        fontSize: 14,
-    },
+  container: {
+    paddingHorizontal: 5,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#c6c6c8",
+    display: "flex",
+    flexDirection: "row",
+  },
+  merchantText: {
+    color: '#000',
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  amountText: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  dateText: {
+    color: '#3C3C4399',
+    fontSize: 14,
+  }
 });
 
 export default function Index() {
     const [transactions, setTransactions] = useState([]);
 
-    useEffect(() => {
-        const loadTransactions = async () => {
-            try {
-                const data = await getTransactions();
-                setTransactions(data);
-            } catch (error) {
-                console.error("Failed to load transactions:", error);
-            }
-        };
-
-        loadTransactions();
-    }, []);
+    useFocusEffect(
+      useCallback(() => {
+          const loadTransactions = async () => {
+              try {
+                  const data = await getTransactions();
+                  setTransactions(data);
+              } catch (error) {
+                  console.error("Failed to load transactions:", error);
+              }
+          };
+  
+          loadTransactions();
+      }, [])
+  );
 
     const getAdvice = (currTransactions: Transaction[]) => {
         let filteredTransactions = currTransactions.filter(
