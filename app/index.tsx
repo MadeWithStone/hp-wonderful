@@ -74,7 +74,8 @@ const TransactionCard = ({ transaction }) => {
 
 const transactionStyles = StyleSheet.create({
   container: {
-    padding: 15,
+    paddingHorizontal: 5,
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#c6c6c8",
     display: "flex",
