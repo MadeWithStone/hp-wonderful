@@ -37,12 +37,12 @@ export const getCritique = async (): Promise<string> => {
 }
 
 export const getTransactions = async (): Promise<Transaction[]> => {
-  if (transactions.length > 0) {
-    return transactions;
-  }
   const response = await fetch("https://us-central1-hp-wonderful.cloudfunctions.net/get_transactions")
   if (response.ok) {
     transactions = await response.json();
+    transactions = transactions.sort((a: Transaction, b: Transaction) => {
+      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime();
+    });
     return transactions;
   } else {
     throw new Error("Error fetching transactions: " + response.statusText);

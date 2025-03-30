@@ -56,6 +56,9 @@ const TransactionCard = ({ transaction }) => {
   }
   return (
     <View style={transactionStyles.container}>
+      <View style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginRight: 20}}>
+        <Ionicons name={transaction.merchant === "DoorDash" ? "car" : "cart"} size={30} />
+      </View>
       <View style={{display: "flex", flexDirection: "column", flex: 1}}>
         <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
         <Text style={transactionStyles.dateText}>{new Date(transaction.datetime).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "2-digit" })}</Text>
@@ -109,15 +112,12 @@ export default function Index() {
     }, []);
 
     const getAdvice = (currTransactions: Transaction[]) => {
-        console.log("A");
-        console.log(currTransactions);
         let filteredTransactions = currTransactions.filter(
             (t) =>
                 t.recommendation &&
                 t.recommendation.recommendation &&
                 t.recommendation.recommendation.length > 0
         );
-        console.log("B");
         if (filteredTransactions.length == 0) {
             return "Loading...";
         } else {
@@ -132,7 +132,7 @@ export default function Index() {
                 <Text style={styles.subtitle}>Recent transactions</Text>
                 <View style={styles.transactionList}>
                     {transactions
-                        .map((t) => t.products)
+                        .map((t) => t.products.map((p) => ({ ...p, datetime: t.datetime, merchant: t.merchant })))
                         .flat()
                         .map((product, index) => (
                             <TransactionCard
