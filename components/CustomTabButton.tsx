@@ -70,7 +70,7 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
                 >
                     <Ionicons
                         name={props.icon}
-                        size={24}
+                        size={32}
                         color={"#fff"}
                     />
                 </Pressable>

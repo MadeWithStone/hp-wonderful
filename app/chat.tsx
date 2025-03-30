@@ -1,81 +1,113 @@
-import { Text, TextInput, View, StyleSheet, NativeSyntheticEvent, TextInputKeyPressEventData, Keyboard } from "react-native";
+import {
+    Text,
+    TextInput,
+    View,
+    StyleSheet,
+    NativeSyntheticEvent,
+    TextInputKeyPressEventData,
+    Keyboard,
+    Pressable,
+} from "react-native";
 import { getCritique } from "./transactions";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import KevinAgent from "./kevinAgent";
 import { KeyboardAvoidingView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function Chat() {
-  const [critique, setCritique] = useState<string | null>(null);
-  const [inputText, setInputText] = useState('');
+type ChatProps = {
+    setChatOpen: Dispatch<SetStateAction<boolean>>
+};
 
-  useFocusEffect(useCallback(() => {
-    let isActive = true;
+export default function Chat({ setChatOpen }: ChatProps) {
+    const insets = useSafeAreaInsets();
 
-    const fetchCritique = async () => {
-      try {
-        const result = "";
-        // const result = await getCritique();
-        if (isActive) {
-          setCritique(result);
-          console.log(result);
-          // KevinAgent.speak(result);
-        }
-      } catch (error) {
-        console.error("Error fetching critique:", error);
-      }
-    }
+    const [critique, setCritique] = useState<string | null>(null);
+    const [inputText, setInputText] = useState("");
 
-    fetchCritique();
-    return () => {
-      isActive = false;
-    }
-  }, []));
+    useFocusEffect(
+        useCallback(() => {
+            let isActive = true;
 
-  return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={50}
-      style={styles.container}
-    >
-      <TextInput 
-        style={styles.input}
-        multiline={true}
-        placeholder="Say something"
-        placeholderTextColor={"gray"}
-        value={inputText}
-        onChangeText={(e) => {
-          if (e.includes("\n")) {
-            Keyboard.dismiss();
-          } else {
-            setInputText(e);
-          }
-        }} />
-    </KeyboardAvoidingView>
-  );
+            const fetchCritique = async () => {
+                try {
+                    const result = "";
+                    // const result = await getCritique();
+                    if (isActive) {
+                        setCritique(result);
+                        console.log(result);
+                        // KevinAgent.speak(result);
+                    }
+                } catch (error) {
+                    console.error("Error fetching critique:", error);
+                }
+            };
+
+            fetchCritique();
+            return () => {
+                isActive = false;
+            };
+        }, [])
+    );
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <Pressable style={{position: 'absolute', top: 0, right: 0, paddingTop: insets.top}} onPress={() => setChatOpen(false)}>
+                <Ionicons name="close-outline" size={64}/>
+            </Pressable>
+
+            <KeyboardAvoidingView
+                behavior="padding"
+                keyboardVerticalOffset={50}
+            >
+                <TextInput
+                    style={styles.input}
+                    multiline={true}
+                    placeholder="Say something"
+                    placeholderTextColor={"gray"}
+                    value={inputText}
+                    onChangeText={(e) => {
+                        if (e.includes("\n")) {
+                            Keyboard.dismiss();
+                        } else {
+                            setInputText(e);
+                        }
+                    }}
+                />
+            </KeyboardAvoidingView>
+        </SafeAreaView>
+
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    left: 0,
-    bottom: 0,
-    zIndex: 20,
-    backgroundColor: "#000",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-  },
-  input: {
-    backgroundColor: "#fff",
-    color: "fff",
-    textAlignVertical: "center",
-    borderRadius: 25,
-    marginHorizontal: 20,
-    padding: 10,
-    paddingHorizontal: 20,
-    marginBottom: 50,
-  }
+    container: {
+        backgroundColor: "#ff0000",
+        opacity: 0.5,
+        width: "100%",
+        height: "100%",
+        flex: 1,
+        zIndex: 10,
+        position: 'absolute',
+        // position: "absolute",
+        // width: "100%",
+        // height: "100%",
+        // left: 0,
+        // bottom: 0,
+        // zIndex: 20,
+        // display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+    },
+    input: {
+        backgroundColor: "#fff",
+        color: "fff",
+        textAlignVertical: "center",
+        borderRadius: 25,
+        marginHorizontal: 20,
+        padding: 10,
+        paddingHorizontal: 20,
+        marginBottom: 50,
+    },
 });
