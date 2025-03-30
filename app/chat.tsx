@@ -8,9 +8,9 @@ import {
     Keyboard,
     Pressable,
 } from "react-native";
-import { getCritique } from "./transactions";
+import { getChat, getCritique } from "./transactions";
 import { useFocusEffect } from "expo-router";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import KevinAgent from "./kevinAgent";
 import { KeyboardAvoidingView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,7 +27,8 @@ type ChatProps = {
 export default function Chat({ setChatOpen }: ChatProps) {
     const insets = useSafeAreaInsets();
 
-    const [critique, setCritique] = useState<string | null>(null);
+    const [kevin, setKevin] = useState<string | null>(null);
+    const [query, setQuery] = useState<string | null>(null);
     const [inputText, setInputText] = useState("");
 
     useFocusEffect(
@@ -36,12 +37,9 @@ export default function Chat({ setChatOpen }: ChatProps) {
 
             const fetchCritique = async () => {
                 try {
-                    const result = "";
-                    // const result = await getCritique();
+                    const result = await getCritique();
                     if (isActive) {
-                        setCritique(result);
-                        console.log(result);
-                        // KevinAgent.speak(result);
+                        setKevin(result.trim());
                     }
                 } catch (error) {
                     console.error("Error fetching critique:", error);
@@ -54,6 +52,27 @@ export default function Chat({ setChatOpen }: ChatProps) {
             };
         }, [])
     );
+
+    useEffect(() => {
+        if (kevin && kevin.length > 0) {
+            KevinAgent.speak(kevin)
+        }
+    }, [kevin])
+
+    useEffect(() => {
+        const fetchChatResponse = async () => {
+            console.log(query)
+            if (query && query.length > 0) {
+                try {
+                    const response = await getChat(query);
+                    setKevin(response.trim());
+                } catch (error) {
+                    console.error("Error fetching chat response:", error);
+                }
+            }
+        }
+        fetchChatResponse();
+    }, [query])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -90,7 +109,7 @@ export default function Chat({ setChatOpen }: ChatProps) {
                     borderRadius: 14,
                 }}
             >
-                <Text>Fuck youuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu</Text>
+                <Text>{kevin}</Text>
 
                 <Svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -185,6 +204,8 @@ export default function Chat({ setChatOpen }: ChatProps) {
                     value={inputText}
                     onChangeText={(e) => {
                         if (e.includes("\n")) {
+                            setInputText("");
+                            setQuery(e);
                             Keyboard.dismiss();
                         } else {
                             setInputText(e);

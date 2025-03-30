@@ -36,6 +36,22 @@ export const getCritique = async (): Promise<string> => {
   }
 }
 
+export const getChat = async (query : string) : Promise<string> => {
+  console.log(query)
+  const response = await fetch("https://us-central1-hp-wonderful.cloudfunctions.net/get_chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: query }),
+  })
+  if (response.ok) {
+    return response.text();
+  } else {
+    throw new Error("Error fetching critique: " + await response.text());
+  }  
+}
+
 export const getTransactions = async (): Promise<Transaction[]> => {
   const response = await fetch("https://us-central1-hp-wonderful.cloudfunctions.net/get_transactions")
   if (response.ok) {
