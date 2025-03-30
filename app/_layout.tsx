@@ -12,9 +12,12 @@ export default function RootLayout() {
   return <>
     <Stack 
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerLargeTitle: true,
+        title: "Home",
         animation: "slide_from_bottom",
-        presentation: "modal"
+        presentation: "modal",
+        contentStyle: {backgroundColor: "white"}
       }}
     />
     <Navigation />

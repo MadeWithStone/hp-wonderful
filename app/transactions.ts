@@ -10,13 +10,19 @@ type Product = {
   price: number;
 }
 
-type Transaction = {
+type Recommendation = {
+  address: string;
+  recommendation: string;
+}
+
+export type Transaction = {
   id: number;
   datetime: Date;
   location: number[];
   merchant: string;
   status: TransactionStatus;
   products: Product[];
+  recommendation?: Recommendation;
 }
 
 let transactions: Transaction[] = [];
