@@ -33,6 +33,10 @@ export default function RootLayout() {
                         // headerShown: false,
                         // presentation: "modal",
                         // animation: "slide_from_bottom"
+                        contentStyle: {
+                          backgroundColor: "white",
+                        },
+                        title: "Home",
                     }
                 }
             >
@@ -68,9 +72,14 @@ export default function RootLayout() {
                                 justifyContent: "center",
                             }}
                         >
-                            <KevinTabButton onPress={() => setChatOpen(true)} />
                             <KevinTabButton
-                                onPress={() => router.navigate("/quests")}
+                              onPress={() => setChatOpen(true)} 
+                              icon="chatbubble"
+                              color="#34c759" />
+                            <KevinTabButton
+                              onPress={() => router.navigate("/quests")}
+                              icon="map"
+                              color="#007aff"
                             />
                         </View>
                     )}

@@ -2,14 +2,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 type KevinTabButtonProps = {
-    onPress: () => void
+    onPress: () => void,
+    icon: keyof typeof Ionicons.glyphMap,
+    color: string,
 }
 
-export default function KevinTabButton({onPress}: KevinTabButtonProps) {
+export default function KevinTabButton(props: KevinTabButtonProps) {
     return (
         <View>
-            <Pressable style={{...styles.pressable}} onPress={onPress}>
-                <Ionicons name="home"/>
+            <Pressable style={{...styles.pressable, backgroundColor: props.color}} onPress={props.onPress}>
+                <Ionicons name={props.icon} size={30}/>
             </Pressable>
         </View>
     );

@@ -65,7 +65,7 @@ export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>(
                     ref={ref}
                     {...props}
                     style={{
-                        ...styles.pressable, backgroundColor: props.background,
+                        ...styles.pressable, backgroundColor: "props.background",
                     }}
                 >
                     <Ionicons
