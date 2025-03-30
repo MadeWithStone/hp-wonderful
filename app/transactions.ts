@@ -22,7 +22,7 @@ export type Transaction = {
   merchant: string;
   status: TransactionStatus;
   products: Product[];
-  recommendation?: Recommendation;
+  recommendation: Recommendation;
 }
 
 let transactions: Transaction[] = [];
