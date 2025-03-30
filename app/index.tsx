@@ -56,13 +56,19 @@ const adviceStyles = StyleSheet.create({
 const TransactionCard = ({ transaction }) => {
   const formatPrice = (price) => {
     let amount = (Math.round(price * 100) / 100).toFixed(2);
-    return `$${amount}`;
+    return `-$${amount}`;
   }
   return (
     <View style={transactionStyles.container}>
-      <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
-      <Text style={transactionStyles.amountText}>{formatPrice(transaction.price)}</Text>
-      <Text style={transactionStyles.dateText}>{transaction.date}</Text>
+      <View style={{display: "flex", flexDirection: "column", flex: 1}}>
+        <Text style={transactionStyles.merchantText}>{transaction.name}</Text>
+        <Text style={transactionStyles.dateText}>{new Date(transaction.datetime).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "2-digit" })}</Text>
+      </View>
+      <View style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+        <Text style={{...transactionStyles.amountText, color: transaction.price < 0 ? "#34c759" : "#ff3b30"}}>
+          {formatPrice(transaction.price)}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -72,6 +78,8 @@ const transactionStyles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#c6c6c8",
+    display: "flex",
+    flexDirection: "row",
   },
   merchantText: {
     color: '#000',
@@ -79,8 +87,8 @@ const transactionStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   amountText: {
-    color: '#3C3C4399',
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: "bold"
   },
   dateText: {
     color: '#3C3C4399',
@@ -122,7 +130,7 @@ export default function Index() {
         <AdviceBox advice={getAdvice(transactions)} />
         <Text style={styles.subtitle}>Recent transactions</Text>
         <View style={styles.transactionList}>
-          {transactions.map((t) => t.products).flat().map((product, index) => (
+          {transactions.map((t) => t.products.map((product) => ({ ...product, datetime: t.datetime }))).flat().map((product, index) => (
             <TransactionCard key={index} transaction={product} />
           ))}
         </View>
